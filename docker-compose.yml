@@ -1,0 +1,55 @@
+version: '3.0'
+services:
+  web:
+    container_name: web1
+    image: nginx
+    restart: always
+    ports:
+    - "8080:80"
+  ssh:
+    container_name: ssh1
+    build: ./ssh
+    restart: always
+    ports:
+    - "2222:22"
+  rdp:
+    container_name: rdp1
+    build: ./rdp
+    restart: always
+    ports:
+    - "3389:3389"
+
+
+    # docker run --net host -d --cap-add=NET_ADMIN --device /dev/net/tun 
+    # --restart=always --log-opt max-size=1g -e Secret=your-secret-here  adanite/odo_connector:eu
+  
+  odo-conn:
+    container_name: odo-conn
+    image: adanite/odo_connector:eu
+    restart: always
+    network_mode: "host"
+    devices:
+    - "/dev/net/tun"
+    cap_add:
+    - NET_ADMIN
+    env_file:
+    - /vagrant/.env
+    #environment:
+    #- Secret=your-one-here
+  db:
+      container_name: pg_container
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_USER: root
+        POSTGRES_PASSWORD: root
+        POSTGRES_DB: test_db
+      ports:
+        - "5432:5432"
+      volumes:
+      - pg_data:/var/lib/postgresql/data/
+
+volumes:
+  pg_data:
+
+
