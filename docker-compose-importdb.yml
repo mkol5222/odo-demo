@@ -3,6 +3,3 @@ services:
   importdb:
     container_name: importdb
     build: ./importdb
-    restart: always
-    ports:
-    - "3389:3389"
