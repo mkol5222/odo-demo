@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   importdb:
-    container_name: rdp1
+    container_name: importdb
     build: ./importdb
     restart: always
     ports:
